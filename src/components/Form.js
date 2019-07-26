@@ -1,28 +1,12 @@
 import React, { Component } from "react";
 import { PropTypes } from "prop-types";
 
-import Message from "./Message";
-
-// Regex for email validation
-const validEmailRegex = RegExp(
-  /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-);
-
-// Regex for phone validation
-const validPhoneNumberRegex = RegExp(/^[2-9]\d{2}-\d{3}-\d{4}$/);
-
-// Regex for url validation
-const validUrlRegex = RegExp(
-  /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
-);
-
-const validNameRegex = RegExp(/^[a-zA-Z]{3,30}$/);
-
-const validateForm = errors => {
-  let valid = true;
-  Object.values(errors).forEach(val => val.length > 0 && (valid = false));
-  return valid;
-};
+import {
+  validEmailRegex,
+  validUrlRegex,
+  validNameRegex,
+  validPhoneNumberRegex
+} from "../utils";
 
 class Form extends Component {
   constructor(props) {
@@ -88,7 +72,7 @@ class Form extends Component {
     event.preventDefault();
     const { name, email } = this.state;
     this.getContent();
-    console.log(this.state)
+    console.log(this.state);
   };
 
   render() {
