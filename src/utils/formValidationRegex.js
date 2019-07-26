@@ -3,8 +3,8 @@ export const validEmailRegex = RegExp(
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 );
 
-// Regex for phone validation
-export const validPhoneNumberRegex = RegExp(/^[2-9]\d{2}-\d{3}-\d{4}$/);
+// Regex for phone validation that starts with numbers other than 0 & 1
+export const validPhoneNumberRegex = RegExp(/(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})/);
 
 // Regex for url validation
 export const validUrlRegex = RegExp(

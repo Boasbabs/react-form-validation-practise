@@ -37,6 +37,13 @@ class Form extends Component {
     });
   };
 
+  validatePhone = phone => {
+    const phoneTest = validPhoneNumberRegex.test(phone);
+    this.setState({
+      isPhoneValid: phoneTest
+    });
+  };
+
   validateUrl = url => {
     const urlTest = validUrlRegex.test(url);
     this.setState({
@@ -62,30 +69,31 @@ class Form extends Component {
       case "email":
         this.validateEmail(this.state.email);
         break;
+      case "phone":
+        this.validatePhone(this.state.phone);
+        break;
       case "url":
         this.validateUrl(this.state.url);
         break;
       default:
         break;
     }
-
     this.setState({ [name]: value });
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    // const { name, email } = this.state;
-    this.getErrorContent();
+    this.getErrorState();
   };
 
-  getErrorContent = () => {
+  getErrorState = () => {
     const { isEmailValid, isNameValid, isUrlValid, isPhoneValid } = this.state;
 
-    const oneInvalidField = isEmailValid && isNameValid && isUrlValid;
-    
-    const isError = oneInvalidField ? true : false;
-    
-    
+    const checkForInvalidField =
+      isEmailValid && isNameValid && isPhoneValid && isUrlValid;
+
+    const isError = checkForInvalidField ? true : false;
+
     this.props.raiseFormError(isError);
   };
 
@@ -109,8 +117,13 @@ class Form extends Component {
             value={email}
             onChange={this.handleChange}
           />
-          {/* <h3>Phone:</h3>
-          <input name="isPhone" type="number" value={isPhone} />  */}
+          <h3>Phone: <small>(+234)</small> </h3>
+          <input
+            name="phone"
+            type="text"
+            value={phone}
+            onChange={this.handleChange}
+          />
           <h3>Blog URL: </h3>
           <input
             name="url"
