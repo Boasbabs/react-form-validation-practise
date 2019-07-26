@@ -7,20 +7,20 @@ class App extends Component {
     constructor(){
         super();
         this.state= {
-          data : ""
+          errorData : ''
         }
       }
 
-      formChild = (params) => {
+      handleFormError = (params) => {
         this.setState({
-          data : params
+          errorData : params
         })
       }
 
     render() {
         return (<div>
-            <Form callback={this.formChild}></Form>
-            <Message errorMessage={this.state.data}></Message>
+            <Form raiseFormError={this.handleFormError}></Form>
+            <Message errorMessage={this.state.errorData}></Message>
         </div>);
     }
 }

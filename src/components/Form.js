@@ -23,37 +23,6 @@ class Form extends Component {
     };
   }
 
-  getContent = () => {
-    const { isEmailValid, isNameValid } = this.state;
-    const invalidField = isEmailValid && isNameValid;
-    const trueError = invalidField ? true : false;
-    this.props.callback(trueError);
-  };
-
-  handleNameChange = event => {
-    this.setState({ name: event.target.value }, () => {
-      this.validateName(this.state.name);
-    });
-  };
-
-  handleChange = event => {
-    event.preventDefault();
-    const { name, value } = event.target;
-
-    switch (name) {
-      case "name":
-        this.validateName(this.state.name);
-        break;
-      case "email":
-        this.validateEmail(this.state.email);
-        break;
-      default:
-        break;
-    }
-
-    this.setState({ [name]: value });
-  };
-
   validateName = name => {
     const nameTest = validNameRegex.test(name);
     this.setState({
@@ -68,11 +37,56 @@ class Form extends Component {
     });
   };
 
+  validateUrl = url => {
+    const urlTest = validUrlRegex.test(url);
+    this.setState({
+      isUrlValid: urlTest
+    });
+  };
+
+  handleNameChange = event => {
+    this.setState({ name: event.target.value }, () => {
+      this.validateName(this.state.name);
+    });
+  };
+
+  handleChange = event => {
+    event.preventDefault();
+
+    const { name, value } = event.target;
+
+    switch (name) {
+      case "name":
+        this.validateName(this.state.name);
+        break;
+      case "email":
+        this.validateEmail(this.state.email);
+        break;
+      case "url":
+        this.validateUrl(this.state.url);
+        break;
+      default:
+        break;
+    }
+
+    this.setState({ [name]: value });
+  };
+
   handleSubmit = event => {
     event.preventDefault();
-    const { name, email } = this.state;
-    this.getContent();
-    console.log(this.state);
+    // const { name, email } = this.state;
+    this.getErrorContent();
+  };
+
+  getErrorContent = () => {
+    const { isEmailValid, isNameValid, isUrlValid, isPhoneValid } = this.state;
+
+    const oneInvalidField = isEmailValid && isNameValid && isUrlValid;
+    
+    const isError = oneInvalidField ? true : false;
+    
+    
+    this.props.raiseFormError(isError);
   };
 
   render() {
@@ -96,9 +110,14 @@ class Form extends Component {
             onChange={this.handleChange}
           />
           {/* <h3>Phone:</h3>
-          <input name="isPhone" type="number" value={isPhone} />
+          <input name="isPhone" type="number" value={isPhone} />  */}
           <h3>Blog URL: </h3>
-          <input name="isUrl" type="text" value={isUrl} /> */}
+          <input
+            name="url"
+            type="text"
+            value={url}
+            onChange={this.handleChange}
+          />
 
           <div className="small-6 small-centered text-center columns">
             <button
@@ -109,7 +128,6 @@ class Form extends Component {
             </button>
           </div>
         </form>
-        {/* {console.log(this.state.errors)} */}
       </div>
     );
   }
@@ -124,7 +142,7 @@ Form.propTypes = {
   //   isNameValid: PropTypes.boolean,
   //   isPhoneValid: PropTypes.boolean,
   //   isUrlValid: PropTypes.boolean,
-  // callback : PropTypes.func,
+  raiseFormError: PropTypes.func
 };
 
 export default Form;
